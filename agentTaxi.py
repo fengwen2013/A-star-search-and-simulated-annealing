@@ -84,9 +84,9 @@ def setupSim(s, width, height, wallwidth):
 
     #Add North Wall
     s.addWall((0,0), (width,wallwidth), Color("blue"))
-    s.addWall((0, height-wallwidth), (width, height), Color("blue"))
-    s.addWall((width - wallwidth, wallwidth), (width, height - wallwidth), Color("blue"))
-    s.addWall((0, wallwidth), (wallwidth, height - wallwidth), Color("blue"))
+    s.addWall((0, height-wallwidth), (width, height), Color("yellow"))
+    s.addWall((width - wallwidth, wallwidth), (width, height - wallwidth), Color("green"))
+    s.addWall((0, wallwidth), (wallwidth, height - wallwidth), Color("red"))
 
     for c in cities:
         addCity(c[0], c[1], s, c[2])
@@ -151,16 +151,25 @@ class Taxi(Agent):
         c_Angle = 0
         c_Angle = getAngle()
         c_Angle = c_Angle % 360 - 360
+
         if(angle < 0):
             angle = angle + 360
-        if c_Angle > -angle - 180 and c_Angle < -angle:
-            #print("Turn left")
-            stop()
-            robot.move(0, 0.1)
-        if c_Angle <= -angle -180 or c_Angle > -angle:
-            #print("Turn Right")
-            stop()
-            robot.move(0, -0.1)
+        if(angle <= 180):
+            if c_Angle > -angle - 180 and c_Angle < -angle:
+                #print("Turn left")
+                stop()
+                robot.move(0, 0.1)
+            else:
+                stop()
+                robot.move(0, -0.1)
+        else:
+            if c_Angle > -angle and c_Angle < -angle + 180:
+                stop()
+                robot.move(0, -0.1)
+            else:
+                stop()
+                robot.move(0, 0.1)
+
         while True:
             c_Angle = getAngle()
             c_Angle = c_Angle % 360 - 360
@@ -190,7 +199,7 @@ class Taxi(Agent):
             x_current, y_current = getLocation()
             #print("coordinate")
             #print(y_nextCity - y_current, x_nextCity - x_current)
-            if y_nextCity - y_current < 5 and x_nextCity - x_current < 10:
+            if abs(y_nextCity - y_current) < 5 and abs(x_nextCity - x_current) < 10:
                 stop()
                 break
             angle = atan2(y_nextCity - y_current, x_nextCity - x_current) * 180 / math.pi

@@ -102,8 +102,8 @@ class Taxi(Agent):
             pic = takePicture()
             show(pic)
             x_current, y_current = getLocation()
-            print("coordinate")
-            print("x:", x_current, "y:", y_current)
+            #print("coordinate")
+            #print("x:", x_current, "y:", y_current)
             if abs(y_nextCity - y_current) < 5 and abs(x_nextCity - x_current) < 10:
                 stop()
                 break
@@ -215,14 +215,11 @@ def total_distances(cities):
 
 
 def setupSim(s, width, height, wallwidth):
-    #Add lights
-    s.addLight((800,570), 25, Color("orange"))
-
     #Add North Wall
     s.addWall((0,0), (width,wallwidth), Color("blue"))
-    s.addWall((0, height-wallwidth), (width, height), Color("blue"))
-    s.addWall((width - wallwidth, wallwidth), (width, height - wallwidth), Color("blue"))
-    s.addWall((0, wallwidth), (wallwidth, height - wallwidth), Color("blue"))
+    s.addWall((0, height-wallwidth), (width, height), Color("yellow"))
+    s.addWall((width - wallwidth, wallwidth), (width, height - wallwidth), Color("green"))
+    s.addWall((0, wallwidth), (wallwidth, height - wallwidth), Color("red"))
 
     for c in cities:
         addCity(c[0], c[1], s, c[2])
